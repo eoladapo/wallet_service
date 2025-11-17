@@ -2,21 +2,22 @@ import config from './config/config';
 import db from './config/database';
 import app from './app';
 
-// Test database connection
-db.raw('SELECT 1')
-  .then(() => {
-    console.log('✅ Database connected successfully');
-  })
-  .catch((error) => {
-    console.error('❌ Database connection failed:', error.message);
-  });
-
-// Start server
+// Start server first (don't block on database connection)
 const server = app.listen(config.server.port, () => {
   console.log(`🚀 Wallet Service MVP running on port ${config.server.port}`);
   console.log(`📊 Environment: ${config.server.nodeEnv}`);
   console.log(`🏥 Health check: http://localhost:${config.server.port}/health`);
   console.log(`📚 API Documentation: http://localhost:${config.server.port}/api-docs`);
+  
+  // Test database connection after server starts
+  db.raw('SELECT 1')
+    .then(() => {
+      console.log('✅ Database connected successfully');
+    })
+    .catch((error) => {
+      console.error('❌ Database connection failed:', error.message);
+      console.error('⚠️  Service is running but database operations will fail');
+    });
 });
 
 // Graceful shutdown handling
