@@ -18,12 +18,12 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Development server',
+        url: 'https://elijaholadapo-lendsqr-be-test.onrender.com',
+        description: 'Production server',
       },
       {
-        url: 'https://api.democredit.com',
-        description: 'Production server',
+        url: 'http://localhost:3000',
+        description: 'Development server',
       },
     ],
     tags: [
