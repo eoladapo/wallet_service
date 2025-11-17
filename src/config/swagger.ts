@@ -1,5 +1,10 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import path from 'path';
+import fs from 'fs';
+
+// Determine if we're running compiled JS or TS source
+const isCompiled = fs.existsSync(path.join(__dirname, '../routes/authRoutes.js'));
+const fileExtension = isCompiled ? 'js' : 'ts';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -207,10 +212,7 @@ const options: swaggerJsdoc.Options = {
     },
   },
   apis: [
-    path.join(__dirname, '../routes/authRoutes.ts'),
-    path.join(__dirname, '../routes/userRoutes.ts'),
-    path.join(__dirname, '../routes/accountRoutes.ts'),
-    path.join(__dirname, '../routes/transferRoutes.ts'),
+    path.join(__dirname, `../routes/*.${fileExtension}`),
   ],
 };
 
