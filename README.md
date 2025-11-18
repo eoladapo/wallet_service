@@ -25,6 +25,8 @@ A RESTful API backend service for Demo Credit, a mobile lending application. The
 - ✅ Withdraw funds from account
 - ✅ Transaction history with pagination
 - ✅ ACID-compliant financial transactions
+- ✅ Row-level locking for concurrency control
+- ✅ Rate limiting to prevent API abuse
 - ✅ Comprehensive error handling
 - ✅ Secure password hashing with bcrypt
 
@@ -749,6 +751,30 @@ Tests automatically clean up data after each test run.
 - Row-level locking prevents race conditions
 - Karma API integration prevents onboarding blacklisted users
 - Environment variables keep sensitive data out of code
+- Rate limiting protects against brute force and DDoS attacks
+
+### Rate Limiting
+
+The API implements tiered rate limiting to prevent abuse:
+
+**General API Rate Limit (Production Only)**
+- 100 requests per 15 minutes per IP
+- Applied to all `/api/*` endpoints
+
+**Authentication Rate Limit**
+- 5 requests per 15 minutes per IP
+- Applied to login and registration endpoints
+- Prevents brute force attacks
+
+**Financial Operations Rate Limit**
+- 20 requests per 15 minutes per IP
+- Applied to fund, withdraw, and transfer endpoints
+- Prevents transaction spam and abuse
+
+Rate limit headers are included in responses:
+- `RateLimit-Limit`: Maximum requests allowed
+- `RateLimit-Remaining`: Requests remaining in current window
+- `RateLimit-Reset`: Time when the rate limit resets
 
 ## Error Handling
 

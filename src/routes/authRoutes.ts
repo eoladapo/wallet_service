@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { authController } from '../controllers/authController';
+import { authLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
@@ -86,6 +87,6 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/login', (req, res) => authController.login(req, res));
+router.post('/login', authLimiter, (req, res) => authController.login(req, res));
 
 export default router;

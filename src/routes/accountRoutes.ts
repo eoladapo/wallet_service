@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { accountController } from '../controllers/accountController';
 import { authenticate } from '../middleware/auth';
+import { financialLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
 // Apply authentication to all account routes
 router.use(authenticate);
+
+// Apply rate limiting to financial operations
+router.use(financialLimiter);
 
 /**
  * @swagger

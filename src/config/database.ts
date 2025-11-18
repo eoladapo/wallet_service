@@ -8,9 +8,7 @@ const dbConfig: Knex.Config = {
     port: appConfig.database.port,
     user: appConfig.database.user,
     password: appConfig.database.password,
-    database: appConfig.isTest() 
-      ? `${appConfig.database.name}_test`
-      : appConfig.database.name,
+    database: appConfig.database.name,
   },
   pool: {
     min: appConfig.isProduction() ? 2 : appConfig.isTest() ? 1 : 2,

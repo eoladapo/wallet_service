@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { transferController } from '../controllers/transferController';
 import { authenticate } from '../middleware/auth';
+import { financialLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
 // Apply authentication to all transfer routes
 router.use(authenticate);
+
+// Apply rate limiting to financial operations
+router.use(financialLimiter);
 
 /**
  * @swagger

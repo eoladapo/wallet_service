@@ -1,7 +1,10 @@
 import type { Knex } from 'knex';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+// Load environment variables from appropriate .env file based on NODE_ENV
+const envFile = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
+dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
 const config: { [key: string]: Knex.Config } = {
   development: {
@@ -35,7 +38,7 @@ const config: { [key: string]: Knex.Config } = {
       port: parseInt(process.env.DB_PORT || '3306'),
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
-      database: `${process.env.DB_NAME || 'wallet_service'}_test`,
+      database: process.env.DB_NAME || 'wallet_service_test',
     },
     pool: {
       min: 1,
